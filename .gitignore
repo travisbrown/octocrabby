@@ -1,0 +1,7 @@
+.DS_Store
+rusty-tags.vi
+/bin
+/target
+/tmp
+.metals
+.vscode

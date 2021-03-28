@@ -75,6 +75,8 @@ For example:
 0x0000ff,1977210,1,3176,,false,false
 ```
 
+You can find copies of the output of this command in this project's [data directory][data-directory].
+
 This allows us to see how many of the signatories were using single-purpose throwaway accounts, for example.
 As of this morning, only 82 of the 3,000+ accounts were created on the same day they opened their PR:
 
@@ -194,6 +196,7 @@ This project is licensed under the Mozilla Public License, version 2.0. See the 
 [1375333996398325762]: https://twitter.com/travisbrown/status/1375333996398325762
 [cancel-culture]: https://github.com/travisbrown/cancel-culture
 [cargo]: https://doc.rust-lang.org/cargo/
+[data-directory]: https://github.com/travisbrown/octocrabby/tree/main/data
 [github]: https://github.com/
 [github-token]: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
 [highlight-rms-supporters]: https://github.com/sticks-stuff/highlight-RMS-supporters

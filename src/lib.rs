@@ -15,6 +15,7 @@ use std::pin::Pin;
 const PULL_REQUESTS_PAGE_SIZE: u8 = 100;
 const FOLLOWERS_PAGE_SIZE: u8 = 100;
 const FOLLOWING_PAGE_SIZE: u8 = 100;
+const BLOCKS_PAGE_SIZE: u8 = 100;
 const BLOCK_304_MESSAGE: &str = "Blocked user has already been blocked";
 
 /// Initialize a client instance with defaults and configuration
@@ -170,8 +171,9 @@ pub fn get_following(instance: &Octocrab) -> impl Stream<Item = octocrab::Result
 
 pub fn get_blocks(instance: &Octocrab) -> impl Stream<Item = octocrab::Result<User>> + '_ {
     let route = "user/blocks";
+    let opts = vec![("per_page", BLOCKS_PAGE_SIZE)];
 
-    stream::once(async move { instance.get::<Vec<User>, _, ()>(route, None).await })
-        .and_then(move |users| future::ok(stream::iter(users).map(Ok)))
+    stream::once(async move { instance.get::<Page<User>, _, _>(route, Some(&opts)).await })
+        .and_then(move |page| future::ok(pager_stream(&instance, page)))
         .try_flatten()
 }

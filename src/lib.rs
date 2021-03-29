@@ -118,7 +118,7 @@ pub async fn get_users_info(
         .join("\n");
 
     let query = format!(
-        "query {{{}}}\nfragment UserFields on User {{ login\ncreatedAt\nname }}",
+        "query {{{}}}\nfragment UserFields on User {{ login\ncreatedAt\nname\ntwitterUsername }}",
         user_aliases
     );
 

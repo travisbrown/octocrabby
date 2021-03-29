@@ -28,14 +28,15 @@ $ cargo build --release
 Most operations require a [GitHub personal access token][github-token], which you currently have to
 provide as a command-line option. If you want to use the mass-blocking functionality, you'll need to
 select the `user` scope when creating your token. If you only want to generate reports or export your
-follower or block lists, that shouldn't be necessary.
+follower or block lists, that shouldn't be necessary. The following examples assume that this has been
+exported to the environment variable `GH_TOKEN`.
 
 ### Contributor reports
 
 One operation that doesn't require a personal access token is `list-pr-contributors`:
 
 ```bash
-$ target/release/crabby -vvvv list-pr-contributors -r rms-support-letter/rms-support-letter.github.io
+$ target/release/crabby -vvvv list-pr-contributors -r rms-support-letter/rms-support-letter.github.io > data/rms-support-letter-contributors.csv
 ```
 
 If no token is provided, this command will output a CSV document with a row for each GitHub user who contributed
@@ -81,21 +82,21 @@ This allows us to see how many of the signatories were using single-purpose thro
 As of this morning, only 82 of the 3,000+ accounts were created on the same day they opened their PR:
 
 ```bash
-$ awk -F, '$4 == 0' rms-contributors.csv | wc
+$ awk -F, '$4 == 0' data/rms-support-letter-contributors.csv | wc
      82     102    3282
 ```
 
 You can also check how many of the signers follow you on GitHub:
 
 ```bash
-$ egrep -r "true,(true|false)$" rms-contributors.csv | wc
+$ egrep -r "true,(true|false)$" data/rms-support-letter-contributors.csv | wc
       0       0       0
 ```
 
 And how many you follow:
 
 ```bash
-$ egrep -r "true$" rms-contributors.csv | wc
+$ egrep -r "true$" data/rms-support-letter-contributors.csv | wc
       0       0       0
 ```
 
@@ -137,7 +138,7 @@ columns except the first, which it expects to be a GitHub username. This is desi
 to save the output of `list-pr-contributors`, manually remove accounts if needed, and then block the rest.
 
 ```
-target/release/crabby -vvv -t $GH_TOKEN block-users < rms-contributors.csv
+target/release/crabby -vvv -t $GH_TOKEN block-users < data/rms-support-letter-contributors.csv
 08:46:41 [WARN] 0hueliSJWpidorasi was already blocked
 08:46:41 [WARN] 0kalekale was already blocked
 ...

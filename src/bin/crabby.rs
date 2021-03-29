@@ -106,14 +106,15 @@ async fn main() -> Void {
                         ref mut user_info,
                     }) = additional_info
                     {
-                        let (age, name) = match user_info.remove(&username) {
+                        let (age, name, twitter_username) = match user_info.remove(&username) {
                             Some(info) => (
                                 (first_pr_date - info.created_at).num_days(),
                                 info.name.unwrap_or_default(),
+                                info.twitter_username.unwrap_or_default(),
                             ),
                             None => {
                                 // These values will be used for accounts such as dependabot
-                                (-1, "".to_string())
+                                (-1, "".to_string(), "".to_string())
                             }
                         };
 
@@ -121,6 +122,7 @@ async fn main() -> Void {
                         record.push(name);
                         record.push(you_follow.contains(&username).to_string());
                         record.push(follows_you.contains(&username).to_string());
+                        record.push(twitter_username);
                     };
 
                     writer.write_record(&record)?;

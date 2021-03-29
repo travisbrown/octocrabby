@@ -15,4 +15,6 @@ pub struct UserInfo {
     #[serde(rename = "createdAt")]
     pub created_at: DateTime<Utc>,
     pub name: Option<String>,
+    #[serde(rename = "twitterUsername")]
+    pub twitter_username: Option<String>,
 }

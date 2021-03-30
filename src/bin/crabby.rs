@@ -31,18 +31,14 @@ async fn main() -> Void {
                     .try_collect()
                     .await?;
 
-                let filtered_usernames: Vec<String> = usernames
-                    .iter()
-                    .filter(|username| !known.contains(*username))
-                    .cloned()
-                    .collect();
+                let unfiltered_size = usernames.len();
+
+                usernames.retain(|username| !known.contains(username));
 
                 log::warn!(
                     "Skipping {} known blocked users",
-                    usernames.len() - filtered_usernames.len()
+                    unfiltered_size - usernames.len()
                 );
-
-                usernames = filtered_usernames;
             }
 
             for username in usernames {
@@ -86,7 +82,7 @@ async fn main() -> Void {
                 let mut prs = pull_requests(&instance, owner, repo)
                     .try_collect::<Vec<_>>()
                     .await?;
-                prs.sort_unstable_by_key(|pr| pr.user.login.clone());
+                prs.sort_unstable_by(|pr1, pr2| pr1.user.login.cmp(&pr2.user.login));
 
                 let by_username = prs
                     .into_iter()
@@ -107,7 +103,7 @@ async fn main() -> Void {
 
                 let usernames = results
                     .iter()
-                    .map(|(username, _, _, _)| username.clone())
+                    .map(|(username, _, _, _)| username.as_str())
                     .collect::<Vec<_>>();
 
                 // Load additional information that's only available if you're authenticated
@@ -228,7 +224,7 @@ struct AdditionalUserInfo {
 
 async fn load_additional_user_info(
     instance: &Octocrab,
-    usernames: &[String],
+    usernames: &[&str],
 ) -> octocrab::Result<AdditionalUserInfo> {
     log::info!("Loading follower information");
     let follows_you = octocrabby::get_followers(&instance)
@@ -246,7 +242,7 @@ async fn load_additional_user_info(
         "Loading additional user information for {} users",
         usernames.len()
     );
-    let user_info: HashMap<String, UserInfo> = octocrabby::get_users_info(&instance, &usernames)
+    let user_info: HashMap<String, UserInfo> = octocrabby::get_users_info(&instance, usernames)
         .await?
         .into_iter()
         .map(|info| (info.login.clone(), info))

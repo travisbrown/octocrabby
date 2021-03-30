@@ -107,7 +107,7 @@ struct GraphQlUserResults {
 
 pub async fn get_users_info(
     instance: &Octocrab,
-    usernames: &[String],
+    usernames: &[&str],
 ) -> octocrab::Result<Vec<models::UserInfo>> {
     let user_aliases = usernames
         .iter()
@@ -122,6 +122,7 @@ pub async fn get_users_info(
     );
 
     let results: octocrab::Result<GraphQlUserResults> = instance.graphql(&query).await;
+    // TODO: Use `into_values` here when #75294 is out of nightly.
     Ok(results?.data.values().flatten().cloned().collect())
 }
 

@@ -16,7 +16,6 @@ const PULL_REQUESTS_PAGE_SIZE: u8 = 100;
 const FOLLOWERS_PAGE_SIZE: u8 = 100;
 const FOLLOWING_PAGE_SIZE: u8 = 100;
 const BLOCKS_PAGE_SIZE: u8 = 100;
-const BLOCK_304_MESSAGE: &str = "Blocked user has already been blocked";
 
 /// Initialize a client instance with defaults and configuration
 pub fn init(token: Option<String>) -> octocrab::Result<Octocrab> {
@@ -144,11 +143,7 @@ pub async fn block_user(instance: &Octocrab, username: &str) -> octocrab::Result
 
     match instance.put::<StatusCodeWrapper, _, ()>(route, None).await {
         Ok(StatusCodeWrapper(status_code)) => Ok(status_code == StatusCode::NO_CONTENT),
-        Err(octocrab::Error::GitHub { source, .. })
-            if source.message.contains(BLOCK_304_MESSAGE) =>
-        {
-            Ok(false)
-        }
+        Err(octocrab::Error::GitHub { source, .. }) if source.errors.is_none() => Ok(false),
         Err(other) => Err(other),
     }
 }

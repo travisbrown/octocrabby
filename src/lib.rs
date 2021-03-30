@@ -144,7 +144,9 @@ pub async fn block_user(instance: &Octocrab, username: &str) -> octocrab::Result
 
     match instance.put::<StatusCodeWrapper, _, ()>(route, None).await {
         Ok(StatusCodeWrapper(status_code)) => Ok(status_code == StatusCode::NO_CONTENT),
-        Err(octocrab::Error::GitHub { source, .. }) if source.message == BLOCK_304_MESSAGE => {
+        Err(octocrab::Error::GitHub { source, .. })
+            if source.message.contains(BLOCK_304_MESSAGE) =>
+        {
             Ok(false)
         }
         Err(other) => Err(other),

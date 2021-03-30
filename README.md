@@ -149,13 +149,15 @@ to save the output of `list-pr-contributors`, manually remove accounts if needed
 
 ```
 target/release/crabby -vvv -t $GH_TOKEN block-users < data/rms-support-letter-contributors.csv
-08:46:41 [WARN] 0hueliSJWpidorasi was already blocked
-08:46:41 [WARN] 0kalekale was already blocked
+15:17:36 [WARN] Skipping 3936 known blocked users
+15:17:36 [INFO] Successfully blocked Aliaksei-Tatarynchyk
 ...
 ```
 
 If you've set the logging level to at least `WARN` (via the `-vvv` or `-vvvv` options), it will show you
-a message for each user who is either newly blocked or was already blocked.
+a message for each user who is blocked. Note that if you've blocked thousands of accounts or are running
+the script on a repository for the first time, it may be faster to include the `--force` option, which
+doesn't download your current block list, but simply requests a block for each user.
 
 ### Other tools
 

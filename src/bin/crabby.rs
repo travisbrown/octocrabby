@@ -14,13 +14,33 @@ async fn main() -> Void {
     let instance = octocrabby::init(opts.token)?;
 
     match opts.command {
-        Command::BlockUsers => {
+        Command::BlockUsers { force } => {
             // Note that only the first field is used, and is expected to be a GitHub login username
             let mut reader = csv::Reader::from_reader(std::io::stdin());
             let mut usernames = vec![];
 
             for record in reader.records() {
                 usernames.push(record?.get(0).unwrap().to_string());
+            }
+
+            if !force {
+                let known: HashSet<String> = octocrabby::get_blocks(&instance)
+                    .and_then(|user| future::ok(user.login))
+                    .try_collect()
+                    .await?;
+
+                let filtered_usernames: Vec<String> = usernames
+                    .iter()
+                    .filter(|username| !known.contains(*username))
+                    .cloned()
+                    .collect();
+
+                log::warn!(
+                    "Skipping {} known blocked users",
+                    usernames.len() - filtered_usernames.len()
+                );
+
+                usernames = filtered_usernames;
             }
 
             for username in usernames {
@@ -167,7 +187,11 @@ struct Opts {
 #[derive(Clap)]
 enum Command {
     /// Block a list of users provided in CSV format to stdin
-    BlockUsers,
+    BlockUsers {
+        /// Force block requests for all provided accounts (skip checking current block list)
+        #[clap(long)]
+        force: bool,
+    },
     /// List the authenticated user's followers in CSV format to stdout
     ListFollowers,
     /// List accounts the authenticated user follows in CSV format to stdout

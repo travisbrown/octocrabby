@@ -55,7 +55,10 @@ async fn main() -> Void {
                 })
                 .await?
         }
-        Command::ListPrContributors { repo_path } => {
+        Command::ListPrContributors {
+            repo_path,
+            omit_twitter,
+        } => {
             if let Some((owner, repo)) = parse_repo_path(&repo_path) {
                 log::info!("Loading pull requests");
                 let mut prs = pull_requests(&instance, owner, repo)
@@ -120,9 +123,11 @@ async fn main() -> Void {
 
                         record.push(age.to_string());
                         record.push(name);
+                        if !omit_twitter {
+                            record.push(twitter_username);
+                        }
                         record.push(you_follow.contains(&username).to_string());
                         record.push(follows_you.contains(&username).to_string());
-                        record.push(twitter_username);
                     };
 
                     writer.write_record(&record)?;
@@ -174,6 +179,9 @@ enum Command {
         /// The repository to check for pull requests
         #[clap(short, long)]
         repo_path: String,
+        /// Omit Twitter handle (which is not verified)
+        #[clap(long)]
+        omit_twitter: bool,
     },
     /// Check whether one user follows another
     CheckFollow {

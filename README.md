@@ -63,18 +63,28 @@ If you provide a personal access token to this command (via `-t`), the output wi
 3. Number of PRs for this repo
 4. Number of days between account creation and the first PR to this repo
 5. The user's name (if available)
-6. A boolean indicating whether you follow this user
-7. A boolean indicating whether this user follows you
+6. The Twitter handle provided by the user (if available)
+7. A boolean indicating whether you follow this user
+8. A boolean indicating whether this user follows you
 
 For example:
 
 ```csv
-0312birdzhang,1762041,1,3229,BirdZhang,false,false
-0hueliSJWpidorasi,81465353,1,0,,false,false
-0kalekale,31927746,1,1288,kalekale,false,false
-0ver3inker,53104897,1,617,0ver3inker,false,false
-0x0000ff,1977210,1,3176,,false,false
+01012,14347178,2,2019,,,false,false
+0312birdzhang,1762041,1,3229,BirdZhang,,false,false
+0MazaHacka0,11509345,1,2204,Dmitry Abakumov,,false,false
+0hueliSJWpidorasi,81465353,1,0,,,false,false
+0kalekale,31927746,1,1288,kalekale,,false,false
+0mid,288476,1,3958,,,false,false
+0rhan,33350605,2,1241,Orhan Gurbanov,,false,false
+0ver3inker,53104897,1,617,0ver3inker,0ver3inker,false,false
+0x0000-dot-ru,1397843,2,3343,Dmitriy Balakin,,false,false
+0x0000ff,1977210,1,3176,,,false,false
 ```
+
+Please note that GitHub does not verify that the Twitter handle provided by a GitHub user in their
+GitHub profile is owned by that user (or that it exists, etc.), so that field should not be used
+for automated blocking on Twitter. You can omit that column from the output by providing `--omit-twitter`.
 
 You can find copies of the output of this command in this project's [data directory][data-directory].
 

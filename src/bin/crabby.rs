@@ -16,7 +16,9 @@ async fn main() -> Void {
     match opts.command {
         Command::BlockUsers { force } => {
             // Note that only the first field is used, and is expected to be a GitHub login username
-            let mut reader = csv::Reader::from_reader(std::io::stdin());
+            let mut reader = csv::ReaderBuilder::new()
+                .has_headers(false)
+                .from_reader(std::io::stdin());
             let mut usernames = vec![];
 
             for record in reader.records() {

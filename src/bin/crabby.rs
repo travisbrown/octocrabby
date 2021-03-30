@@ -2,8 +2,12 @@ use clap::{crate_authors, crate_version, Clap};
 use futures::{future, stream::TryStreamExt};
 use itertools::Itertools;
 use octocrab::Octocrab;
-use octocrabby::{block_user, check_follow, cli, models::UserInfo, parse_repo_path, pull_requests};
+use octocrabby::{
+    block_user, check_follow, cli, models::UserInfo, parse_repo_path, pull_requests, Exclusions,
+};
 use std::collections::{HashMap, HashSet};
+use std::default::Default;
+use std::fs::File;
 
 type Void = Result<(), Box<dyn std::error::Error>>;
 
@@ -76,8 +80,17 @@ async fn main() -> Void {
         Command::ListPrContributors {
             repo_path,
             omit_twitter,
+            exclusions_file,
+            ignore_exclusions,
         } => {
             if let Some((owner, repo)) = parse_repo_path(&repo_path) {
+                let exclusions = if ignore_exclusions {
+                    Exclusions::default()
+                } else {
+                    let file = File::open(exclusions_file)?;
+                    Exclusions::load(file)?
+                };
+
                 log::info!("Loading pull requests");
                 let mut prs = pull_requests(&instance, owner, repo)
                     .try_collect::<Vec<_>>()
@@ -117,38 +130,42 @@ async fn main() -> Void {
                 let mut writer = csv::Writer::from_writer(std::io::stdout());
 
                 for (username, user_id, pr_count, first_pr_date) in results {
-                    let mut record =
-                        vec![username.clone(), user_id.to_string(), pr_count.to_string()];
+                    if exclusions.is_excluded(&repo_path, &username) {
+                        log::warn!("Excluded user {}", username);
+                    } else {
+                        let mut record =
+                            vec![username.clone(), user_id.to_string(), pr_count.to_string()];
 
-                    // Add other fields to the record if you're authenticated
-                    if let Some(AdditionalUserInfo {
-                        ref follows_you,
-                        ref you_follow,
-                        ref mut user_info,
-                    }) = additional_info
-                    {
-                        let (age, name, twitter_username) = match user_info.remove(&username) {
-                            Some(info) => (
-                                (first_pr_date - info.created_at).num_days(),
-                                info.name.unwrap_or_default(),
-                                info.twitter_username.unwrap_or_default(),
-                            ),
-                            None => {
-                                // These values will be used for accounts such as dependabot
-                                (-1, "".to_string(), "".to_string())
+                        // Add other fields to the record if you're authenticated
+                        if let Some(AdditionalUserInfo {
+                            ref follows_you,
+                            ref you_follow,
+                            ref mut user_info,
+                        }) = additional_info
+                        {
+                            let (age, name, twitter_username) = match user_info.remove(&username) {
+                                Some(info) => (
+                                    (first_pr_date - info.created_at).num_days(),
+                                    info.name.unwrap_or_default(),
+                                    info.twitter_username.unwrap_or_default(),
+                                ),
+                                None => {
+                                    // These values will be used for accounts such as dependabot
+                                    (-1, "".to_string(), "".to_string())
+                                }
+                            };
+
+                            record.push(age.to_string());
+                            record.push(name);
+                            if !omit_twitter {
+                                record.push(twitter_username);
                             }
-                        };
-
-                        record.push(age.to_string());
-                        record.push(name);
-                        if !omit_twitter {
-                            record.push(twitter_username);
+                            record.push(you_follow.contains(&username).to_string());
+                            record.push(follows_you.contains(&username).to_string());
                         }
-                        record.push(you_follow.contains(&username).to_string());
-                        record.push(follows_you.contains(&username).to_string());
-                    };
 
-                    writer.write_record(&record)?;
+                        writer.write_record(&record)?;
+                    }
                 }
             } else {
                 log::error!("Invalid repository path: {}", repo_path);
@@ -204,6 +221,12 @@ enum Command {
         /// Omit Twitter handle (which is not verified)
         #[clap(long)]
         omit_twitter: bool,
+        /// Exclusions file
+        #[clap(short, long, default_value = "data/exclusions.csv")]
+        exclusions_file: String,
+        /// Ignore exclusions
+        #[clap(long)]
+        ignore_exclusions: bool,
     },
     /// Check whether one user follows another
     CheckFollow {

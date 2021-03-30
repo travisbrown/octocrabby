@@ -3,13 +3,15 @@ pub mod models;
 
 use futures::stream::{self, Stream, StreamExt, TryStreamExt};
 use futures::{future, Future, FutureExt};
+use itertools::Itertools;
 use octocrab::{
     models::{pulls::PullRequest, User},
     Octocrab, Page,
 };
 use reqwest::{Response, StatusCode};
 use serde::{de::DeserializeOwned, Deserialize};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
+use std::io::Read;
 use std::pin::Pin;
 
 const PULL_REQUESTS_PAGE_SIZE: u8 = 100;
@@ -174,4 +176,43 @@ pub fn get_blocks(instance: &Octocrab) -> impl Stream<Item = octocrab::Result<Us
     stream::once(async move { instance.get::<Page<User>, _, _>(route, Some(&opts)).await })
         .and_then(move |page| future::ok(pager_stream(&instance, page)))
         .try_flatten()
+}
+
+#[derive(Default)]
+pub struct Exclusions(HashMap<String, HashSet<String>>);
+
+impl Exclusions {
+    pub fn load<R: Read>(reader: R) -> csv::Result<Exclusions> {
+        let mut csv_reader = csv::ReaderBuilder::new()
+            .has_headers(false)
+            .from_reader(reader);
+        let mut pairs = csv_reader
+            .deserialize::<(String, String)>()
+            .collect::<csv::Result<Vec<_>>>()?;
+        pairs.sort_unstable_by(|(repo1, _), (repo2, _)| repo1.cmp(repo2));
+
+        Ok(Exclusions(
+            pairs
+                .into_iter()
+                .group_by(|(repo, _)| repo.clone())
+                .into_iter()
+                .map(|(repo, pairs)| {
+                    (
+                        repo,
+                        pairs.map(|(_, username)| username.to_lowercase()).collect(),
+                    )
+                })
+                .collect(),
+        ))
+    }
+
+    pub fn is_excluded(&self, repo: &str, username: &str) -> bool {
+        // Only accounts that are treated specially by GitHub should be hard-coded here
+        // All other exclusions should be managed with an exclusions file
+        username == "ghost"
+            || username == "dependabot[bot]"
+            || self.0.get(repo).map_or(false, |usernames| {
+                usernames.contains(&username.to_lowercase())
+            })
+    }
 }

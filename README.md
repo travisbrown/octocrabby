@@ -138,6 +138,9 @@ phderome,11035032
 
 The format is a two-column CSV with username and user ID.
 
+It's also possible to export the block list of an organization you administer by adding `--org $MY_ORG`
+to the `list-blocks` command (note that this requires your token to have the `read:org` scope enabled).
+
 In general it's probably a good idea to save the output of the `list-blocks` command before using
 the mass-blocking functionality in the next section.
 
@@ -158,6 +161,9 @@ If you've set the logging level to at least `WARN` (via the `-vvv` or `-vvvv` op
 a message for each user who is blocked. Note that if you've blocked thousands of accounts or are running
 the script on a repository for the first time, it may be faster to include the `--force` option, which
 doesn't download your current block list, but simply requests a block for each user.
+
+It's also possible to block a list of users on behalf of an organization that you administer by adding
+`--org $MY_ORG` to the `block-users` command (assuming your token has `write:org` enabled).
 
 ### Other tools
 

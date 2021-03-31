@@ -3,7 +3,8 @@ use futures::{future, stream::TryStreamExt};
 use itertools::Itertools;
 use octocrab::Octocrab;
 use octocrabby::{
-    block_user, check_follow, cli, models::UserInfo, parse_repo_path, pull_requests, Exclusions,
+    block_user, check_follow, cli, get_blocks, models::UserInfo, parse_repo_path, pull_requests,
+    Exclusions,
 };
 use std::collections::{HashMap, HashSet};
 use std::default::Default;
@@ -18,7 +19,7 @@ async fn main() -> Void {
     let instance = octocrabby::init(opts.token)?;
 
     match opts.command {
-        Command::BlockUsers { force } => {
+        Command::BlockUsers { org, force } => {
             // Note that only the first field is used, and is expected to be a GitHub login username
             let mut reader = csv::ReaderBuilder::new()
                 .has_headers(false)
@@ -30,7 +31,7 @@ async fn main() -> Void {
             }
 
             if !force {
-                let known: HashSet<String> = octocrabby::get_blocks(&instance)
+                let known: HashSet<String> = octocrabby::get_blocks(&instance, org.as_deref())
                     .and_then(|user| future::ok(user.login))
                     .try_collect()
                     .await?;
@@ -46,7 +47,7 @@ async fn main() -> Void {
             }
 
             for username in usernames {
-                if block_user(&instance, &username).await? {
+                if block_user(&instance, org.as_deref(), &username).await? {
                     log::info!("Successfully blocked {}", username)
                 } else {
                     log::warn!("{} was already blocked", username)
@@ -69,8 +70,8 @@ async fn main() -> Void {
                 })
                 .await?
         }
-        Command::ListBlocks => {
-            octocrabby::get_blocks(&instance)
+        Command::ListBlocks { org } => {
+            get_blocks(&instance, org.as_deref())
                 .try_for_each(|user| {
                     println!("{},{}", user.login, user.id);
                     future::ok(())
@@ -203,6 +204,9 @@ struct Opts {
 enum Command {
     /// Block a list of users provided in CSV format to stdin
     BlockUsers {
+        /// The organization to block users from (instead of the authenticated user)
+        #[clap(long)]
+        org: Option<String>,
         /// Force block requests for all provided accounts (skip checking current block list)
         #[clap(long)]
         force: bool,
@@ -212,7 +216,11 @@ enum Command {
     /// List accounts the authenticated user follows in CSV format to stdout
     ListFollowing,
     /// List accounts the authenticated user blocks in CSV format to stdout
-    ListBlocks,
+    ListBlocks {
+        /// The organization to list blocks for (instead of the authenticated user)
+        #[clap(long)]
+        org: Option<String>,
+    },
     /// List PR contributors for the given repository
     ListPrContributors {
         /// The repository to check for pull requests

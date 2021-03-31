@@ -1,7 +1,7 @@
 pub mod cli;
 pub mod models;
 
-use futures::stream::{self, Stream, StreamExt, TryStreamExt};
+use futures::stream::{self, LocalBoxStream, Stream, StreamExt, TryStreamExt};
 use futures::{future, Future, FutureExt};
 use itertools::Itertools;
 use octocrab::{
@@ -140,9 +140,36 @@ pub async fn get_user(
         .await
 }
 
+/// Block a user from either an organization or a user account
+pub async fn block_user(
+    instance: &Octocrab,
+    organization: Option<&str>,
+    username: &str,
+) -> octocrab::Result<bool> {
+    match organization {
+        Some(value) => block_user_for_organization(instance, value, username).await,
+        None => block_user_for_user(instance, username).await,
+    }
+}
+
 /// Block a user and indicate whether this operation changed their block status
-pub async fn block_user(instance: &Octocrab, username: &str) -> octocrab::Result<bool> {
+pub async fn block_user_for_user(instance: &Octocrab, username: &str) -> octocrab::Result<bool> {
     let route = format!("/user/blocks/{}", username);
+
+    match instance.put::<StatusCodeWrapper, _, ()>(route, None).await {
+        Ok(StatusCodeWrapper(status_code)) => Ok(status_code == StatusCode::NO_CONTENT),
+        Err(octocrab::Error::GitHub { source, .. }) if source.errors.is_none() => Ok(false),
+        Err(other) => Err(other),
+    }
+}
+
+/// Block a user from an organization and indicate whether this operation changed their block status
+pub async fn block_user_for_organization(
+    instance: &Octocrab,
+    organization: &str,
+    username: &str,
+) -> octocrab::Result<bool> {
+    let route = format!("/orgs/{}/blocks/{}", organization, username);
 
     match instance.put::<StatusCodeWrapper, _, ()>(route, None).await {
         Ok(StatusCodeWrapper(status_code)) => Ok(status_code == StatusCode::NO_CONTENT),
@@ -169,8 +196,30 @@ pub fn get_following(instance: &Octocrab) -> impl Stream<Item = octocrab::Result
         .try_flatten()
 }
 
-pub fn get_blocks(instance: &Octocrab) -> impl Stream<Item = octocrab::Result<User>> + '_ {
+pub fn get_blocks<'a>(
+    instance: &'a Octocrab,
+    organization: Option<&'a str>,
+) -> LocalBoxStream<'a, octocrab::Result<User>> {
+    match organization {
+        Some(value) => Box::pin(get_blocks_for_organization(instance, value)),
+        None => Box::pin(get_blocks_for_user(instance)),
+    }
+}
+
+pub fn get_blocks_for_user(instance: &Octocrab) -> impl Stream<Item = octocrab::Result<User>> + '_ {
     let route = "user/blocks";
+    let opts = vec![("per_page", BLOCKS_PAGE_SIZE)];
+
+    stream::once(async move { instance.get::<Page<User>, _, _>(route, Some(&opts)).await })
+        .and_then(move |page| future::ok(pager_stream(&instance, page)))
+        .try_flatten()
+}
+
+pub fn get_blocks_for_organization<'a>(
+    instance: &'a Octocrab,
+    organization: &'a str,
+) -> impl Stream<Item = octocrab::Result<User>> + 'a {
+    let route = format!("orgs/{}/blocks", organization);
     let opts = vec![("per_page", BLOCKS_PAGE_SIZE)];
 
     stream::once(async move { instance.get::<Page<User>, _, _>(route, Some(&opts)).await })

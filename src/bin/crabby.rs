@@ -4,7 +4,7 @@ use itertools::Itertools;
 use octocrab::Octocrab;
 use octocrabby::{
     block_user, check_follow, cli, get_blocks, models::UserInfo, parse_repo_path, pull_requests,
-    Exclusions,
+    BlockStatus, Exclusions,
 };
 use std::collections::{HashMap, HashSet};
 use std::default::Default;
@@ -47,10 +47,16 @@ async fn main() -> Void {
             }
 
             for username in usernames {
-                if block_user(&instance, org.as_deref(), &username).await? {
-                    log::info!("Successfully blocked {}", username)
-                } else {
-                    log::warn!("{} was already blocked", username)
+                match block_user(&instance, org.as_deref(), &username).await? {
+                    BlockStatus::NewlyBlocked => log::info!("Successfully blocked {}", username),
+                    BlockStatus::AlreadyBlocked => log::warn!("{} was already blocked", username),
+                    BlockStatus::UserNotFound => log::warn!("{} was not found", username),
+                    BlockStatus::OtherSuccess(status_code) => {
+                        log::error!("Unknown success status code: {:?}", status_code)
+                    }
+                    BlockStatus::OtherNonSuccess(message) => {
+                        log::error!("Unknown non-success message: {}", message)
+                    }
                 };
             }
         }

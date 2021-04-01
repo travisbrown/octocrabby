@@ -18,6 +18,8 @@ const PULL_REQUESTS_PAGE_SIZE: u8 = 100;
 const FOLLOWERS_PAGE_SIZE: u8 = 100;
 const FOLLOWING_PAGE_SIZE: u8 = 100;
 const BLOCKS_PAGE_SIZE: u8 = 100;
+const BLOCK_304_MESSAGE: &str = "Blocked user has already been blocked";
+const BLOCK_404_MESSAGE: &str = "Not Found";
 
 /// Initialize a client instance with defaults and configuration
 pub fn init(token: Option<String>) -> octocrab::Result<Octocrab> {
@@ -140,42 +142,72 @@ pub async fn get_user(
         .await
 }
 
+pub enum BlockStatus {
+    NewlyBlocked,
+    AlreadyBlocked,
+    UserNotFound,
+    OtherSuccess(StatusCode),
+    OtherNonSuccess(String),
+}
+
+impl BlockStatus {
+    fn from_status_code_result(
+        status_code_result: octocrab::Result<StatusCodeWrapper>,
+    ) -> octocrab::Result<Self> {
+        match status_code_result {
+            Ok(StatusCodeWrapper(status_code)) if status_code == StatusCode::NO_CONTENT => {
+                Ok(BlockStatus::NewlyBlocked)
+            }
+            Ok(StatusCodeWrapper(status_code)) => Ok(BlockStatus::OtherSuccess(status_code)),
+            Err(octocrab::Error::GitHub { source, .. }) if source.errors.is_none() => {
+                Ok(if source.message.contains(BLOCK_304_MESSAGE) {
+                    BlockStatus::AlreadyBlocked
+                } else if source.message.contains(BLOCK_404_MESSAGE) {
+                    BlockStatus::UserNotFound
+                } else {
+                    BlockStatus::OtherNonSuccess(source.message)
+                })
+            }
+            Err(other) => Err(other),
+        }
+    }
+}
+
 /// Block a user from either an organization or a user account
 pub async fn block_user(
     instance: &Octocrab,
     organization: Option<&str>,
     username: &str,
-) -> octocrab::Result<bool> {
+) -> octocrab::Result<BlockStatus> {
     match organization {
         Some(value) => block_user_for_organization(instance, value, username).await,
         None => block_user_for_user(instance, username).await,
     }
 }
 
-/// Block a user and indicate whether this operation changed their block status
-pub async fn block_user_for_user(instance: &Octocrab, username: &str) -> octocrab::Result<bool> {
+/// Block a user and indicate the result of the operation
+pub async fn block_user_for_user(
+    instance: &Octocrab,
+    username: &str,
+) -> octocrab::Result<BlockStatus> {
     let route = format!("/user/blocks/{}", username);
 
-    match instance.put::<StatusCodeWrapper, _, ()>(route, None).await {
-        Ok(StatusCodeWrapper(status_code)) => Ok(status_code == StatusCode::NO_CONTENT),
-        Err(octocrab::Error::GitHub { source, .. }) if source.errors.is_none() => Ok(false),
-        Err(other) => Err(other),
-    }
+    BlockStatus::from_status_code_result(
+        instance.put::<StatusCodeWrapper, _, ()>(route, None).await,
+    )
 }
 
-/// Block a user from an organization and indicate whether this operation changed their block status
+/// Block a user from an organization
 pub async fn block_user_for_organization(
     instance: &Octocrab,
     organization: &str,
     username: &str,
-) -> octocrab::Result<bool> {
+) -> octocrab::Result<BlockStatus> {
     let route = format!("/orgs/{}/blocks/{}", organization, username);
 
-    match instance.put::<StatusCodeWrapper, _, ()>(route, None).await {
-        Ok(StatusCodeWrapper(status_code)) => Ok(status_code == StatusCode::NO_CONTENT),
-        Err(octocrab::Error::GitHub { source, .. }) if source.errors.is_none() => Ok(false),
-        Err(other) => Err(other),
-    }
+    BlockStatus::from_status_code_result(
+        instance.put::<StatusCodeWrapper, _, ()>(route, None).await,
+    )
 }
 
 pub fn get_followers(instance: &Octocrab) -> impl Stream<Item = octocrab::Result<User>> + '_ {

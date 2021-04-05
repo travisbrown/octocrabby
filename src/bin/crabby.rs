@@ -9,8 +9,12 @@ use octocrabby::{
 use std::collections::{HashMap, HashSet};
 use std::default::Default;
 use std::fs::File;
+use std::time::Duration;
 
 type Void = Result<(), Box<dyn std::error::Error>>;
+
+const GRAPHQL_RETRIES: u32 = 4;
+const GRAPHQL_DELAY: Duration = Duration::from_secs(5);
 
 #[tokio::main]
 async fn main() -> Void {
@@ -129,7 +133,13 @@ async fn main() -> Void {
                 // Load additional information that's only available if you're authenticated
                 let mut additional_info: Option<AdditionalUserInfo> =
                     if instance.current().user().await.is_ok() {
-                        Some(load_additional_user_info(&instance, &usernames).await?)
+                        // For some reason the GraphQL endpoint often responds with 502s
+                        Some(
+                            tryhard::retry_fn(|| load_additional_user_info(&instance, &usernames))
+                                .retries(GRAPHQL_RETRIES)
+                                .exponential_backoff(GRAPHQL_DELAY)
+                                .await?,
+                        )
                     } else {
                         None
                     };

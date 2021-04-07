@@ -133,13 +133,7 @@ async fn main() -> Void {
                 // Load additional information that's only available if you're authenticated
                 let mut additional_info: Option<AdditionalUserInfo> =
                     if instance.current().user().await.is_ok() {
-                        // For some reason the GraphQL endpoint often responds with 502s
-                        Some(
-                            tryhard::retry_fn(|| load_additional_user_info(&instance, &usernames))
-                                .retries(GRAPHQL_RETRIES)
-                                .exponential_backoff(GRAPHQL_DELAY)
-                                .await?,
-                        )
+                        Some(load_additional_user_info(&instance, &usernames).await?)
                     } else {
                         None
                     };
@@ -289,11 +283,16 @@ async fn load_additional_user_info(
         "Loading additional user information for {} users",
         usernames.len()
     );
-    let user_info: HashMap<String, UserInfo> = octocrabby::get_users_info(&instance, usernames)
-        .await?
-        .into_iter()
-        .map(|info| (info.login.clone(), info))
-        .collect();
+
+    // For some reason the GraphQL endpoint often responds with 502s
+    let user_info: HashMap<String, UserInfo> =
+        tryhard::retry_fn(|| octocrabby::get_users_info(&instance, usernames))
+            .retries(GRAPHQL_RETRIES)
+            .exponential_backoff(GRAPHQL_DELAY)
+            .await?
+            .into_iter()
+            .map(|info| (info.login.clone(), info))
+            .collect();
 
     Ok(AdditionalUserInfo {
         follows_you,

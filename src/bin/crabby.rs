@@ -266,7 +266,7 @@ struct AdditionalUserInfo {
 
 async fn load_additional_user_info(
     instance: &Octocrab,
-    usernames: &Vec<&str>,
+    usernames: &[&str],
 ) -> octocrab::Result<AdditionalUserInfo> {
     log::info!("Loading follower information");
     let follows_you = octocrabby::get_followers(&instance)

@@ -132,7 +132,7 @@ pub async fn get_users_info(
 
 pub fn get_users_info_chunked<'a>(
     instance: &'a Octocrab,
-    usernames: &'a Vec<&'a str>,
+    usernames: &'a [&'a str],
     chunk_size: usize,
 ) -> impl Stream<Item = octocrab::Result<models::UserInfo>> + 'a {
     stream::iter(usernames.chunks(chunk_size).map(Ok))

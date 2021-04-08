@@ -13,6 +13,7 @@ use std::time::Duration;
 
 type Void = Result<(), Box<dyn std::error::Error>>;
 
+const GRAPHQL_CHUNK_SIZE: usize = 512;
 const GRAPHQL_RETRIES: u32 = 4;
 const GRAPHQL_DELAY: Duration = Duration::from_secs(5);
 
@@ -265,7 +266,7 @@ struct AdditionalUserInfo {
 
 async fn load_additional_user_info(
     instance: &Octocrab,
-    usernames: &[&str],
+    usernames: &Vec<&str>,
 ) -> octocrab::Result<AdditionalUserInfo> {
     log::info!("Loading follower information");
     let follows_you = octocrabby::get_followers(&instance)
@@ -285,14 +286,16 @@ async fn load_additional_user_info(
     );
 
     // For some reason the GraphQL endpoint often responds with 502s
-    let user_info: HashMap<String, UserInfo> =
-        tryhard::retry_fn(|| octocrabby::get_users_info(&instance, usernames))
-            .retries(GRAPHQL_RETRIES)
-            .exponential_backoff(GRAPHQL_DELAY)
-            .await?
-            .into_iter()
-            .map(|info| (info.login.clone(), info))
-            .collect();
+    let user_info: HashMap<String, UserInfo> = tryhard::retry_fn(|| {
+        octocrabby::get_users_info_chunked(&instance, usernames, GRAPHQL_CHUNK_SIZE)
+            .try_collect::<Vec<_>>()
+    })
+    .retries(GRAPHQL_RETRIES)
+    .exponential_backoff(GRAPHQL_DELAY)
+    .await?
+    .into_iter()
+    .map(|info| (info.login.clone(), info))
+    .collect();
 
     Ok(AdditionalUserInfo {
         follows_you,

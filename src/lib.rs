@@ -130,6 +130,17 @@ pub async fn get_users_info(
     Ok(results?.data.values().flatten().cloned().collect())
 }
 
+pub fn get_users_info_chunked<'a>(
+    instance: &'a Octocrab,
+    usernames: &'a Vec<&'a str>,
+    chunk_size: usize,
+) -> impl Stream<Item = octocrab::Result<models::UserInfo>> + 'a {
+    stream::iter(usernames.chunks(chunk_size).map(Ok))
+        .and_then(move |chunk| get_users_info(instance, chunk))
+        .and_then(|infos| future::ok(stream::iter(infos.into_iter().map(Ok))))
+        .try_flatten()
+}
+
 /// Get extended information for a user
 pub async fn get_user(
     instance: &Octocrab,

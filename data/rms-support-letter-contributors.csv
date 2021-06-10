@@ -170,7 +170,6 @@ Aloxaf,17017672,1,1884,Aloxaf,false,false
 AlphaHot,58410019,1,478,,false,false
 Alter0ne,31344199,2,1307,Alexey Timonin,false,false
 AlternativeSolution,48640956,1,743,,false,false
-Alucarch,74112270,1,137,,false,false
 Am0k-GIT,65251928,1,317,Pavel,false,false
 Amareis,4806617,1,2829,Иван Плесских,false,false
 AmbassadorGovna,70033218,1,227,Ambassador,false,false
@@ -316,7 +315,7 @@ C-xC-c,58750933,1,473,,false,false
 CATYLH,61243608,2,399,,false,false
 CH23-,10682105,1,2255,,false,false
 CMiSSioN,47270663,1,796,,false,false
-CODPUD,53604174,2,600,Jalol Khamroev,false,false
+CODPUD,53604174,2,600,,false,false
 CORV0S,25254170,1,1528,,false,false
 CRKaraman,18408229,1,1807,Ayder Umerov,false,false
 CRy386i,55298635,1,557,,false,false
@@ -483,7 +482,6 @@ Dmitry-Chernikov,42750167,2,939,Dmitry,false,false
 Dmitry450,44119190,2,892,/in/dev/,false,false
 DmitryErshov,1438860,1,3330,Dmitry Ershov,false,false
 DmitryMachavariani,10154052,2,2296,Дмитрий,false,false
-DmytrMelnyk,73580593,1,161,,false,false
 Do0m666,39674476,1,1038,Yury,false,false
 DoYouEvenCpp,7124127,1,2555,Stanisław Kubiak,false,false
 DocenciaLibre,19748600,1,1761,Antonio Valdés,false,false
@@ -743,6 +741,7 @@ Horribile,21214645,1,1673,,false,false
 Hoshpak,13802545,1,2049,Helmut Pozimski,false,false
 Hrothgar32,24781959,1,1559,,false,false
 Huluk,127309,1,4214,Lars Hansen,false,false
+IFRFSX,34205903,1,1282,,false,false
 IGLOU-EU,15379333,1,1973,Iglou.eu,false,false
 IHappyPlant,43047239,1,931,Alex Karyuk,false,false
 IIIT0II0P,41263489,2,983,,false,false
@@ -756,7 +755,7 @@ IceeMC,31800435,1,1297,John Burke,false,false
 Iceris,30776482,1,1352,,false,false
 Ievhenii2812,76692571,1,99,,false,false
 Igeljaeger,71042080,1,206,Igeljäger,false,false
-IgorIsaiasBanlian,5447560,1,2751,Igor Isaias Banlian,false,false
+IgorIsaiasBanlian,5447560,2,2751,Igor Isaias Banlian,false,false
 IgorLutiy,35736450,1,1157,IgorLutiy,false,false
 IgorMarkiv,52014592,1,646,,false,false
 IgorPolyakov,2613581,1,3077,Igor Polyakov,false,false
@@ -1053,7 +1052,7 @@ Maudit,746603,1,3623,Tochiro Oyama,false,false
 MavropaliasG,13523909,1,2067,Georgios Mavropalias,false,false
 Max-Kox,39672125,1,1043,Max Kokhan,false,false
 MaxCorreia,18178526,1,1820,Max Correia,false,false
-MaxUNof,26873765,2,1453,Maxim,false,false
+MaxUNof,26873765,2,1453,Max,false,false
 Maxdem28,20873600,1,1693,Giulio Segalini,false,false
 MaxiHuesito,34755714,1,1188,Maxim Kostin,false,false
 Maxim-Zhukov,55153772,1,560,,false,false
@@ -1472,7 +1471,7 @@ ShadowM00n,36942155,1,1120,,false,false
 ShadowOfLoony,10910993,1,2237,,false,false
 ShadowProgrammer,18636889,1,1797,Alex Shadow,false,false
 Shamar,299880,1,3942,Giacomo Tesio,false,false
-Shardion,22127191,1,1654,Shardion,false,false
+Shardion,22127191,1,1654,,false,false
 Shatterbrain,1657851,1,3274,,false,false
 Shatur,22453358,1,1640,Hennadii Chernyshchyk,false,false
 Sherifq,43904737,1,901,,false,false
@@ -1654,7 +1653,7 @@ Traubert,2804367,1,3050,Sam Hardwick,false,false
 TrechNex,80134671,1,23,Bobby Moss,false,false
 Tretboot,37165913,1,1117,,false,false
 Triang3l,1764343,1,3229,Triang3l,false,false
-Trojan0523,44562268,2,879,Trojan0523,false,false
+Trojan0523,44562268,2,879,雄宇同学,false,false
 TsinElisha,75524414,1,111,chunfeng_tsin,false,false
 Tuipveus,23616029,1,1589,,false,false
 Tulon,4699344,1,2844,Joseph Artsimovich,false,false
@@ -1970,6 +1969,7 @@ alex-karev,64698645,1,330,Alex Karev (SandEbru),false,false
 alex-rass-88,7008147,1,2561,Alexey Rassikhin,false,false
 alex-skiba-postnl,79860250,1,35,,false,false
 alex-tee,3407655,1,2981,,false,false
+alex-ushakov-312,73037194,1,158,Alexander Ushakov,false,false
 alex-voronin,5549374,1,2736,,false,false
 alex-zuy,8556628,1,2402,Zuy Alexey,false,false
 alex134420,68498706,1,253,,false,false
@@ -2663,6 +2663,7 @@ diegogangl,264829,1,3979,Diego Gangl,false,false
 digitcrusher,18168500,1,1821,Karol Łacina,false,false
 digmorepaka,26260814,1,1477,Daniel,false,false
 dillakick,44534051,1,893,lua,false,false
+dima-melnyk,73580593,1,161,Dmytro,false,false
 dima424658,11276352,1,2227,Dmitry Pankov,false,false
 dimastark,11780431,1,2198,Dima Starkov,false,false
 dimez,1325171,1,3365,,false,false
@@ -2719,7 +2720,7 @@ doctorjigsaw,59014293,1,464,Doctor Jigsaw,false,false
 doctorx32,20308356,2,1724,Dmitry,false,false
 dodobyte,30313862,1,1343,Dogan Kurt,false,false
 doenietzomoeilijk,648663,1,3674,Max Roeleveld,false,false
-doesnotcommit,45845353,1,856,Daniel,false,false
+doesnotcommit,45845353,1,856,Danil Karetnikov,false,false
 domker,4380767,1,2883,,false,false
 domve,24991312,1,1540,dom,false,false
 donat-b,1835559,1,3273,Donat,false,false
@@ -3277,7 +3278,6 @@ horstjens,137853,1,4183,Horst JENS,false,false
 hotid,5817999,1,2701,Igor Diakonov,false,false
 house-of-vanity,4666566,1,2850,House of Vanity,false,false
 hresh,8845364,1,2383,Hryhorii Reshetniak,false,false
-hrg71,81267917,1,0,,false,false
 hrjohn,40773343,1,998,,false,false
 hscpy,77178604,1,75,,false,false
 hugollopes,13916287,3,2056,,false,false
@@ -3306,7 +3306,7 @@ iNerV,8485067,1,2411,Vladimir Voytenko,false,false
 iSmashButtons,50255463,1,690,Dennis Chaves,false,false
 iTzHard,40786611,1,997,,false,false
 iVanKeKs,64078160,1,337,Злостный Нарушитель,false,false
-iWumboUWumbo2,17531877,1,1855,,false,false
+iWumboUWumbo2,17531877,1,1855,Arun Raman,false,false
 iamc,1663652,1,3264,Iñigo Aldazabal,false,false
 iamjpotts,8704475,1,2398,,false,false
 iamm3chanic,64973921,1,325,Mechanic,false,false
@@ -3393,6 +3393,7 @@ iownall555,18068959,1,1825,iownall555,false,false
 ipanin,12109535,1,2163,Ilya,false,false
 ipkalm,5002950,1,2811,,false,false
 ipmanlk,13213457,1,2094,Navinda Dissanayake,false,false
+ipotseluev,2834898,1,3051,Igor Potseluev,false,false
 iq180,38864064,1,1068,Emil Petrakov,false,false
 iressa,56489733,1,529,Ian R,false,false
 irisiflimsi,2022972,1,3170,,false,false
@@ -3435,6 +3436,7 @@ ivandasch,6059537,1,2674,Ivan Daschinskiy,false,false
 ivanka2012,16673946,1,1896,ivanka2012,false,false
 ivanpopelyshev,695831,1,3649,Ivan Popelyshev,false,false
 ivanrakilovsky,53049647,1,625,Ivan Rakilovsky,false,false
+ivcat,74112270,1,137,,false,false
 ivgorbunov,44527105,1,901,,false,false
 ivlexster,81960252,1,0,Aleksey Ivannikov,false,false
 ivmazurenko,34516127,1,1196,,false,false
@@ -4850,7 +4852,6 @@ salva-imm,32010748,1,1291,,false,false
 samalazau,17331924,1,1871,Valery Samalazau,false,false
 samboy,6597080,1,2629,Sam Trenholme,false,false
 samm-git,1388875,1,3345,Alex Samorukov,false,false
-samminor,2834898,1,3051,Igor Potseluev,false,false
 samsquire,1983701,1,3174,Sam Squire,false,false
 samuelfmlourenco,16304376,1,1926,Samuel Lourenço,false,false
 samuellvicente,22838433,1,1641,Samuel Vicente,false,false
@@ -5378,7 +5379,6 @@ urkonn,37691,1,4505,Julio Acuña,false,false
 urykhy,1411834,1,3334,,false,false
 urza9814,22078524,1,1657,,false,false
 user318,671062,1,3669,Alexander Zubkov,false,false
-ushakov-31293,73037194,1,158,Alexander Ushakov,false,false
 ushliypakostnik,13109694,1,2094,Levon Gambaryan,false,false
 uspasojevic96,3018800,1,3025,Uros Spasojevic,false,false
 utamons,15011606,2,1995,Oleg Zaidullin,false,false

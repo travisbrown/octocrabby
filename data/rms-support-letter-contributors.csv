@@ -63,7 +63,7 @@
 427008,5971307,1,2683,427008,false,false
 45bot,56128545,2,537,alex,false,false
 4679,2030404,1,3168,Anaesthesine,false,false
-4channel,68159867,1,257,vulpinefoxxo,false,false
+4channel,68159867,1,257,,false,false
 4eburashk,39623246,1,1034,4eburashk,false,false
 4fury-c3440d8,69083171,1,244,,false,false
 4n0n4,52877794,1,620,,false,false
@@ -74,7 +74,7 @@
 6he,189060,1,4078,Anton,false,false
 6r1d,2552837,6,3084,Victor,false,false
 72Zn,767771,1,3613,Thomas Zink,false,false
-772,13351564,2,2080,Armin S.,false,false
+772,13351564,2,2080,Armin Schäfer,false,false
 7Bpencil,43344410,1,939,Edward Starkov,false,false
 7heaven,172270,2,4108,7heaven,false,false
 813gan,29867887,1,1365,,false,false
@@ -720,12 +720,12 @@ Harry-Chen,2819727,1,3055,Shengqi Chen,false,false
 Hate43,81513410,1,0,,false,false
 Hatry1337,53402621,1,608,Thomas,false,false
 HawaiinPizza,40522299,2,1005,Zakariya Ahmed,false,false
-Hayafumi,72291868,1,174,Hayafumi,false,false
+Hayafumi,72291868,1,174,meta64,false,false
 HeadCutter,3989291,1,2919,,false,false
 HellCreator,7128806,1,2554,Andrii,false,false
 Hendicted,36131469,1,1143,,false,false
 Hereigo,2032826,1,3172,Hereigo,false,false
-HexagonWin,67452729,1,317,,false,false
+HexagonWin,67452729,1,317,alpha2x,false,false
 Hhina,81338023,2,0,,false,false
 HighHeil,36033785,1,1153,,false,false
 Himura2la,7802808,1,2488,Himura Kazuto,false,false
@@ -784,7 +784,6 @@ IriaSomobu,17745136,1,1844,Ilya Somov,false,false
 IrinaRomas,53312057,2,613,Irina Romas,false,false
 Isakku,16464336,1,1917,,false,false
 ItLisBy,48157587,2,762,ŁIS,false,false
-ItsJackBattersby,56895948,1,520,Jack Battersby,false,false
 ItzNeviKat,24193020,1,1582,ItzNeviKat,false,false
 IvUyr,19225478,1,1787,,false,false
 Ivan-Belenkov,5749971,1,2714,,false,false
@@ -1339,7 +1338,6 @@ Quppa,2142963,1,3150,David Warner,false,false
 R3D9477,15020827,2,1994,R3D9477,false,false
 RAYSONCOLLINS237,81537689,1,0,,false,false
 RAtioNAn,72982136,1,159,RAtioNAn,false,false
-RISCiATOM,50113333,1,702,,false,false
 RRustom,20623695,1,1713,Rami Rustom,false,false
 RaZZlom,73530026,1,148,,false,false
 Radbardur,54484387,1,577,Vladislav Ivanov,false,false
@@ -1437,6 +1435,7 @@ SamLynnEvans,28839356,1,1409,,false,false
 Sameh-R-Labib,2739431,1,3060,Sameh R. Labib,false,false
 Samet-MohamedAmin,25162525,1,1528,MohamedAmin Samet,false,false
 SamsterBirdies,71206056,1,195,,false,false
+SandroLinux,69315452,1,331,Sandro Linux,false,false
 Santurysim,23362279,1,1598,Peter,false,false
 Sapare,57562502,1,503,,false,false
 SashaSemenishchev,38401696,1,1162,MisterFunny01,false,false
@@ -2298,6 +2297,7 @@ behollder,1114246,1,3464,Nikita Onachko,false,false
 belousov-sudo,77840205,1,65,Alexander Belousov,false,false
 benflap,62034481,1,380,ben,false,false
 benkasminbullock,102005,1,4282,Ben Bullock,false,false
+bennn,1731829,1,3339,Ben Greenman,false,false
 beranat,5691335,1,2719,Anatoly L. Berenblit,false,false
 berarma,162766,1,4134,Bernat,false,false
 bergentroll,14995027,1,1996,Anton Karmanov,false,false
@@ -2521,6 +2521,7 @@ corpix,747362,1,3632,corpix,false,false
 corporateanon,10270871,1,2285,,false,false
 corviv,20595915,1,1719,Victor Pushkarev,false,false
 cosmo-ray,7076362,1,2554,Matthias Gatto,false,false
+cosmothefox04,56895948,1,520,CosmoTheFox,false,false
 count-spector,81482099,2,0,Harvey Spector,false,false
 crabvk,3273827,1,2991,Vyacheslav Konovalov,false,false
 craynic,391731,1,3851,,false,false
@@ -2592,9 +2593,10 @@ darijgr,8042045,1,2465,Darij Grinberg,false,false
 dariotarantini,34209633,1,1210,Dario Tarantini,false,false
 dariowho,1861809,1,3211,Dario,false,false
 dark-eye,1365484,1,3354,Eran,false,false
+darklands1,62560355,1,366,Ben O'Neill,false,false
 darkn07,79307337,1,34,Darkness,false,false
 darktohka,16326697,1,1926,Derzsi Dániel,false,false
-dascar5,44278130,1,891,DanteV,false,false
+dascar5,44278130,1,891,Bogdan Laban,false,false
 dashezup,67376103,1,274,Dash Eclipse,false,false
 datalf,46710094,1,799,Ivan Borovyi,false,false
 datio,15472,1,4654,￸A￸l￸e￸x D￸o￸m￸a￸k￸i￸d￸i￸s,false,false
@@ -3371,6 +3373,7 @@ imit12pj,81631908,1,0,,false,false
 imlnn,30524665,1,1336,Ilia Malinin,false,false
 imlyzh,29578696,1,1373,Lyzh,false,false
 imme-emosol,487989,1,3780,immeëmosol,false,false
+importerror,2376909,1,3209,Santosh Kumar,false,false
 improvised-explosive-device,74483891,1,130,,false,false
 inaltoasinistra,1118740,1,3455,,false,false
 include-yy,46282552,1,817,Yi Yue,false,false
@@ -3625,7 +3628,7 @@ kcomain,13762043,1,2067,Sophie,false,false
 kcubeterm,50498359,1,762,Krishna Kanhaiya,false,false
 kdeligian,8549069,2,2418,,false,false
 kdemetter,753269,2,3621,De Metter Kenny,false,false
-kdfedorov,66470368,1,293,,false,false
+kdfedorov,66470368,1,293,Keril Fedorov,false,false
 keeganjk,24554125,1,1561,,false,false
 keir-ru,9975053,2,2309,Alexey Dunaev,false,false
 keivinwedell,387761,1,3855,Keivin Wedell Reyes Gutiérrez,false,false
@@ -3975,6 +3978,7 @@ maranov,11609215,1,2193,,false,false
 marat1961,2478206,1,3103,Marat Shaimardanov,false,false
 maratgaliev,190057,1,4080,Marat Galiev,false,false
 marcauberer,59527509,1,446,Marc Auberer,false,false
+marciowb,2153705,1,3245,Marcio Wesley Borges,false,false
 marco-calautti,8049741,1,2461,Marco Calautti,false,false
 marcotondi,4513598,1,2893,Marco Tondi,false,false
 mardy,59287,1,4419,Alberto Mardegan,false,false
@@ -4344,6 +4348,7 @@ nitpack,73593878,1,147,,false,false
 nixargh,2868978,1,3057,,false,false
 nixoeen,2206884,1,3135,Moein Alinaghian,false,false
 nixorn,5370736,1,2759,Artem Kanev,false,false
+nktvslv,26239255,1,1581,Nikita Vasilyev,false,false
 nngogol,25032060,1,1547,,false,false
 nnnn20430,1347555,1,3359,"N Nullbuilt, version 20430",false,false
 no1tx,2914539,1,3037,Pavel Isaev,false,false
@@ -4498,7 +4503,7 @@ paren-duren,81326498,1,0,,false,false
 parona-source,46777059,1,800,Alfred Wingate,false,false
 parsnip42,12633023,1,2131,,false,false
 pas9x,2150013,1,3144,,false,false
-pascal48,64768219,1,325,goredriver,false,false
+pascal48,64768219,1,325,coff3e,false,false
 pashok6798,27864883,1,1445,Sudakov Pavel,false,false
 pastk,18434508,1,1807,,false,false
 pastra98,48472437,2,753,Paul Straberger,false,false
@@ -4962,6 +4967,7 @@ shiftee,1383407,1,3344,Mark O'Donovan,false,false
 shikhalev,422781,1,3827,Ivan Shikhalev,false,false
 shikiroot,53338814,1,608,Shiki,false,false
 shilin-ai,81672956,1,0,Alexey Shilin,false,false
+shinespritewastaken,79464618,1,133,shinesprite,false,false
 shiningdracon,78193,1,4354,,false,false
 shiorid,70187554,1,211,Filipe da Silva Santos,false,false
 shiptux,22735550,1,1628,LiCheng,false,false
@@ -5164,7 +5170,7 @@ sur98gdirc,60640190,1,418,Artur Mansurov,false,false
 suranc,25411481,1,1522,Chris Suran,false,false
 suyd,77451579,1,73,,false,false
 svart,320509,1,3925,Dmitry,false,false
-sve-kai-itmo,62668686,1,363,,false,false
+sve-kai-itmo,62668686,1,363,Svetlana,false,false
 svensis,11571941,2,2196,svensis,false,false
 svi0105,81316989,1,0,,false,false
 svmidi,4647947,1,2845,,false,false
@@ -5175,7 +5181,6 @@ swalex,4418316,1,2873,Alexander Saratow,false,false
 swardman,875287,1,3563,Simon Ward,false,false
 swashdev,33240410,1,1247,Philip Pavlick,false,false
 swathe,50568441,2,702,,false,false
-swegbun,62560355,1,366,Ben O'Neill,false,false
 swiperflue,81438111,2,0,ablegama,false,false
 sword1024,4866046,1,2826,,false,false
 swors,1224620,1,3407,,false,false
@@ -5256,7 +5261,7 @@ thedemonium,24658026,1,1557,,false,false
 thedvd98,10478235,1,2265,,false,false
 theelderguard,54419596,1,579,Sergei Pogrebniak,false,false
 thefish,510764,3,3765,thefish,false,false
-thehatkid,35992897,2,1148,Sasha Ermohin,false,false
+thehatkid,35992897,2,1148,Sasha'o' Ermohin,false,false
 thehearse,78662848,1,46,,false,false
 thehoa,376698,1,3865,Thế Hòa,false,false
 thellage,45451453,1,846,,false,false
@@ -5386,6 +5391,7 @@ uncerso,25592720,1,1519,Anton,false,false
 unconed,172808,1,4107,,false,false
 undead9000,4849464,1,2827,,false,false
 undulum,71432529,1,188,,false,false
+unforgivenvirtuoso,48650535,1,840,viper,false,false
 unger1984,1415693,1,3332,Andrey Unger,false,false
 unn4m3d,11375246,1,2210,Stepan Melnikov,false,false
 unpaleness,6851250,1,2578,Egor Morunov,false,false

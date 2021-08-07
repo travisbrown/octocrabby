@@ -269,13 +269,13 @@ async fn load_additional_user_info(
     usernames: &[&str],
 ) -> octocrab::Result<AdditionalUserInfo> {
     log::info!("Loading follower information");
-    let follows_you = octocrabby::get_followers(&instance)
+    let follows_you = octocrabby::get_followers(instance)
         .and_then(|user| future::ok(user.login))
         .try_collect()
         .await?;
 
     log::info!("Loading following information");
-    let you_follow = octocrabby::get_following(&instance)
+    let you_follow = octocrabby::get_following(instance)
         .and_then(|user| future::ok(user.login))
         .try_collect()
         .await?;
@@ -287,7 +287,7 @@ async fn load_additional_user_info(
 
     // For some reason the GraphQL endpoint often responds with 502s
     let user_info: HashMap<String, UserInfo> = tryhard::retry_fn(|| {
-        octocrabby::get_users_info_chunked(&instance, usernames, GRAPHQL_CHUNK_SIZE)
+        octocrabby::get_users_info_chunked(instance, usernames, GRAPHQL_CHUNK_SIZE)
             .try_collect::<Vec<_>>()
     })
     .retries(GRAPHQL_RETRIES)

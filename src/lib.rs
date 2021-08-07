@@ -75,7 +75,7 @@ pub fn pull_requests<'a>(
             .send()
             .await
     })
-    .and_then(move |page| future::ok(pager_stream(&instance, page)))
+    .and_then(move |page| future::ok(pager_stream(instance, page)))
     .try_flatten()
 }
 
@@ -226,7 +226,7 @@ pub fn get_followers(instance: &Octocrab) -> impl Stream<Item = octocrab::Result
     let opts = vec![("per_page", FOLLOWERS_PAGE_SIZE)];
 
     stream::once(async move { instance.get::<Page<User>, _, _>(route, Some(&opts)).await })
-        .and_then(move |page| future::ok(pager_stream(&instance, page)))
+        .and_then(move |page| future::ok(pager_stream(instance, page)))
         .try_flatten()
 }
 
@@ -235,7 +235,7 @@ pub fn get_following(instance: &Octocrab) -> impl Stream<Item = octocrab::Result
     let opts = vec![("per_page", FOLLOWING_PAGE_SIZE)];
 
     stream::once(async move { instance.get::<Page<User>, _, _>(route, Some(&opts)).await })
-        .and_then(move |page| future::ok(pager_stream(&instance, page)))
+        .and_then(move |page| future::ok(pager_stream(instance, page)))
         .try_flatten()
 }
 
@@ -254,7 +254,7 @@ pub fn get_blocks_for_user(instance: &Octocrab) -> impl Stream<Item = octocrab::
     let opts = vec![("per_page", BLOCKS_PAGE_SIZE)];
 
     stream::once(async move { instance.get::<Page<User>, _, _>(route, Some(&opts)).await })
-        .and_then(move |page| future::ok(pager_stream(&instance, page)))
+        .and_then(move |page| future::ok(pager_stream(instance, page)))
         .try_flatten()
 }
 
@@ -266,7 +266,7 @@ pub fn get_blocks_for_organization<'a>(
     let opts = vec![("per_page", BLOCKS_PAGE_SIZE)];
 
     stream::once(async move { instance.get::<Page<User>, _, _>(route, Some(&opts)).await })
-        .and_then(move |page| future::ok(pager_stream(&instance, page)))
+        .and_then(move |page| future::ok(pager_stream(instance, page)))
         .try_flatten()
 }
 

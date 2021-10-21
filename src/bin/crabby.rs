@@ -1,4 +1,4 @@
-use clap::{crate_authors, crate_version, Clap};
+use clap::{crate_authors, crate_version, Parser};
 use futures::{future, stream::TryStreamExt};
 use itertools::Itertools;
 use octocrab::Octocrab;
@@ -198,7 +198,7 @@ async fn main() -> Void {
     Ok(())
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 #[clap(name = "crabby", version = crate_version!(), author = crate_authors!())]
 struct Opts {
     /// A GitHub personal access token (not needed for all operations)
@@ -211,7 +211,7 @@ struct Opts {
     command: Command,
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 enum Command {
     /// Block a list of users provided in CSV format to stdin
     BlockUsers {

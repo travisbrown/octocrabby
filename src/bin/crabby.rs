@@ -1,4 +1,4 @@
-use clap::{crate_authors, crate_version, Parser};
+use clap::Parser;
 use futures::{future, stream::TryStreamExt};
 use itertools::Itertools;
 use octocrab::Octocrab;
@@ -107,22 +107,32 @@ async fn main() -> Void {
                 let mut prs = pull_requests(&instance, owner, repo)
                     .try_collect::<Vec<_>>()
                     .await?;
-                prs.sort_unstable_by(|pr1, pr2| pr1.user.login.cmp(&pr2.user.login));
+                prs.sort_unstable_by(|pr1, pr2| {
+                    pr1.user
+                        .as_ref()
+                        .map(|user| &user.login)
+                        .cmp(&pr2.user.as_ref().map(|user| &user.login))
+                });
 
-                let by_username = prs
-                    .into_iter()
-                    .group_by(|pr| (pr.user.login.clone(), pr.user.id));
+                let by_username = prs.into_iter().group_by(|pr| {
+                    (
+                        pr.user.as_ref().map(|user| user.login.clone()),
+                        pr.user.as_ref().map(|user| user.id),
+                    )
+                });
 
                 let results = by_username
                     .into_iter()
-                    .map(|((username, user_id), prs)| {
+                    .filter_map(|((username, user_id), prs)| {
                         let batch = prs.collect::<Vec<_>>();
-                        (
-                            username,
-                            user_id,
-                            batch.len(),
-                            batch.into_iter().map(|pr| pr.created_at).min().unwrap(),
-                        )
+                        let batch_len = batch.len();
+
+                        let username = username?;
+                        let user_id = user_id?;
+                        let first_pr_date =
+                            batch.into_iter().map(|pr| pr.created_at).min().unwrap()?;
+
+                        Some((username, user_id, batch_len, first_pr_date))
                     })
                     .collect::<Vec<_>>();
 
@@ -199,7 +209,7 @@ async fn main() -> Void {
 }
 
 #[derive(Parser)]
-#[clap(name = "crabby", version = crate_version!(), author = crate_authors!())]
+#[clap(name = "crabby", version, author)]
 struct Opts {
     /// A GitHub personal access token (not needed for all operations)
     #[clap(short, long)]

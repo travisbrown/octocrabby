@@ -214,8 +214,8 @@ struct Opts {
     /// A GitHub personal access token (not needed for all operations)
     #[clap(short, long)]
     token: Option<String>,
-    #[clap(short, long, parse(from_occurrences))]
     /// Logging verbosity
+    #[clap(long, short = 'v', global = true, action = clap::ArgAction::Count)]
     verbose: i32,
     #[clap(subcommand)]
     command: Command,

@@ -8,18 +8,17 @@ edition = "2018"
 license = "MPL-2.0"
 
 [dependencies]
-anyhow = "1.0"
 chrono = "0.4"
-clap = { version = "3", features = ["derive"] }
+clap = { version = "4", features = ["derive"] }
 csv="1.1"
 futures = "0.3"
 itertools = "0.10"
 log = "0.4"
-octocrab = "0.16"
+octocrab = "0.18"
 reqwest = "0.11"
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
 simplelog = "0.12"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
-tryhard = "0.4"
+tryhard = "0.5"
